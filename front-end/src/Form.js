@@ -1,6 +1,6 @@
 import react, {useState} from 'react'
 
-function Form() {
+function Form(props) {
     const [person, setPerson] = useState(
         {
             name: "",
@@ -19,6 +19,11 @@ function Form() {
             );
     }
 
+    function submitForm() {
+        props.handleSubmit(person);
+        setPerson({name: '', job: ''});
+    }
+
     return (
         <form>
             <label htmlFor="name">Name</label>
@@ -35,6 +40,7 @@ function Form() {
                 id="job"
                 value={person.job}
                 onChange={handleChange} />
+            <input type="button" value="Submit" onClick={submitForm} />
         </form>
     );
 }
