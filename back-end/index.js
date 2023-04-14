@@ -46,9 +46,9 @@ app.get('/users/:id', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-    const userToAdd = req.body;
+    const userToAdd = generateId(req.body);
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).send(userToAdd).end();
 });
 
 app.delete('/users/:id', (req, res) => {
@@ -60,6 +60,11 @@ app.delete('/users/:id', (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
+function generateId(person) {
+    person["id"] = Math.random().toString(36).substring(2, 8)
+    return person
+}
 
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);

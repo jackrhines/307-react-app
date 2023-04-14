@@ -36,18 +36,18 @@ function MyApp() {
         }
     }
 
+    function updateList(person) {
+        makePostCall(person).then( result => {
+            if (result && result.status === 201)
+                setCharacters([...characters, result.data] );
+        });
+    }
+
     function removeOneCharacter(index) {
         const updated = characters.filter((character, i) => {
             return i !== index
         });
         setCharacters(updated);
-    }
-
-    function updateList(person) {
-        makePostCall(person).then( result => {
-            if (result && result.status === 200)
-                setCharacters([...characters, person] );
-        });
     }
 
     return (
