@@ -54,7 +54,7 @@ app.post('/users', (req, res) => {
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id']; //or req.params.id
     deleteUserById(id);
-    res.status(200).end();
+    res.status(204).end();
 })
 
 app.listen(port, () => {
@@ -90,7 +90,6 @@ function addUser(user){
 
 function deleteUserById(id) {
     users['users_list'] = users['users_list'].filter( (user) => user['id'] !== id);
-
 }
 
 const users = {

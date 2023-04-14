@@ -43,11 +43,29 @@ function MyApp() {
         });
     }
 
+    async function makeDeleteCall(id) {
+        try {
+            const response = await axios.delete('http://localhost:8000/users/' + id)
+            return response;
+        }
+        catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     function removeOneCharacter(index) {
+        // console.log(characters, index, characters["index"])
+        const personToDelete = characters[index]["id"]
+
         const updated = characters.filter((character, i) => {
             return i !== index
         });
-        setCharacters(updated);
+
+        makeDeleteCall(personToDelete).then(result => {
+            if (result && result.status === 204)
+                setCharacters(updated)
+        })
     }
 
     return (
