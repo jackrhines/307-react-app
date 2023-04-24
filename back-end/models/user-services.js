@@ -43,6 +43,16 @@ async function addUser(user) {
   }
 }
 
+async function deleteUserById(id) {
+  try {
+    console.log(id)
+    return await userModel.findByIdAndDelete(id)
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function findUserByName(name) {
   return await userModel.find({ name: name });
 }
@@ -58,3 +68,4 @@ async function findUserByNameAndJob(name, job) {
 exports.getUsers = getUsers;
 exports.findUserById = findUserById;
 exports.addUser = addUser;
+exports.deleteUserById = deleteUserById;
