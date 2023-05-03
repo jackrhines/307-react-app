@@ -53,7 +53,8 @@ function MyApp() {
     }
 
     function removeOneCharacter(index) {
-        const personToDelete = characters[index]["id"]
+        const personToDelete = characters[index]["_id"]
+        console.log(characters, characters[index])
 
         makeDeleteCall(personToDelete).then(result => {
             if (result && result.status === 204) {
