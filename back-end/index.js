@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
 const port = 8000;
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
+
+const userServices = require('./models/user-services')
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -35,7 +39,7 @@ app.get('/users', (req, res) => {
 app.get('/users/:id', (req, res) => {
     const id = req.params['id']; //or req.params.id
     let result = findUserById(id);
-    if (result === undefined || result.length == 0)
+    if (result === undefined || result.length === 0)
         res.status(404).send('Resource not found.');
     else {
         result = {users_list: result};
@@ -44,20 +48,25 @@ app.get('/users/:id', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-    const userToAdd = req.body;
+    const userToAdd = generateId(req.body);
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).send(userToAdd).end();
 });
 
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id']; //or req.params.id
     deleteUserById(id);
-    res.status(200).end();
+    res.status(204).end();
 })
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
+function generateId(person) {
+    person["id"] = Math.random().toString(36).substring(2, 8)
+    return person
+}
 
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);
@@ -83,7 +92,6 @@ function addUser(user){
 
 function deleteUserById(id) {
     users['users_list'] = users['users_list'].filter( (user) => user['id'] !== id);
-
 }
 
 const users = {
